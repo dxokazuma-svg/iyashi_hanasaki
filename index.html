@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>癒し待夢 給料計算（新コース表）</title>
+<title>癒し待夢 給料計算</title>
 
 <style>
 :root{
@@ -83,6 +83,9 @@ select{width:100%;padding:12px;font-size:18px;border-radius:12px;border:2px soli
   <button class="btn ext-btn" data-ext="90">+90分</button>
   <button class="btn ext-btn" data-ext="120">+120分</button>
   <button class="btn ext-btn" data-ext="150">+150分</button>
+  <button class="btn ext-btn" data-ext="180">+180分</button>
+  <button class="btn ext-btn" data-ext="210">+210分</button>
+  <button class="btn ext-btn" data-ext="240">+240分</button>
 </div>
 
 </div>
@@ -117,15 +120,19 @@ const COURSE_BACK = {
 
 // ===== 延長バック（ネット＝フリー扱い）=====
 const EXT_BACK = {
-  "none": { free: 0, hon: 0 },
+  "none": { free: 0,    hon: 0 },
 
   "30":   { free: 2500,  hon: 3000 },
   "60":   { free: 5000,  hon: 6000 },
   "90":   { free: 7500,  hon: 9000 },
   "120":  { free: 10000, hon: 12000 },
   "150":  { free: 12500, hon: 15000 },
-};
 
+  // 追加分
+  "180":  { free: 15000, hon: 18000 },
+  "210":  { free: 17500, hon: 21000 },
+  "240":  { free: 20000, hon: 24000 },
+};
 function courseBack(course, nom){
   if(!course) return 0;
   const row = COURSE_BACK[course];
@@ -229,7 +236,17 @@ function save(r){
 
 // 表示用ラベル
 function nomLabel(n){ return n==="net" ? "ネット指名" : n==="hon" ? "本指名" : "フリー"; }
-function extLabel(e){ return e==="30" ? "+30" : e==="60" ? "+60" : "延長なし"; }
+function extLabel(e){
+  if(e === "30")  return "+30";
+  if(e === "60")  return "+60";
+  if(e === "90")  return "+90";
+  if(e === "120") return "+120";
+  if(e === "150") return "+150";
+  if(e === "180") return "+180";
+  if(e === "210") return "+210";
+  if(e === "240") return "+240";
+  return "延長なし";
+}
 
 document.getElementById("addBtn").addEventListener("click", ()=>{
   if(!selectedCourse){
